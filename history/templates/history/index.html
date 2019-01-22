@@ -1,0 +1,9 @@
+<h1>List of Famous Music Artists</h1>
+{% if list_of_artists %}
+    {% for artist in list_of_artists %}
+        <p style="font-size:20px; margin-bottom: 0px;"><a href="{{ artist.id }}/">{{ artist.artist_name }}</a></p>
+    {% endfor %}
+
+{% else %}
+    <p>No artists are available.</p>
+{% endif %}

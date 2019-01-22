@@ -1,0 +1,14 @@
+{% for artist in artist_details %}
+<h1 style="margin-bottom:0px;">{{artist.artist_name}}</h1>
+<p>Formed on {{artist.artist_formed}}</p>
+{% endfor %}
+<h4>Top 15 Songs:</h4>
+{% if song_names %}
+    <ul>
+    {% for song in song_names %}
+        <li>{{song.song_name}}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No songs are available.</p>
+{% endif %}
