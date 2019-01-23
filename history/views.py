@@ -1,5 +1,6 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
-# from django.http import HttpResponse
+from django.urls import reverse
 from django.template import loader
 from .models import Artist
 from .models import Song
@@ -28,3 +29,25 @@ def expanded(request, artist_id):
   song_names = Song.objects.filter(artist_id = artist_id)
   context = {'song_names': song_names, 'artist': artist}
   return render(request, 'history/expanded.html', context)
+
+def add(request):
+  if request.method == 'POST':
+    try:
+      name = request.POST['artist_name']
+      date = request.POST['date_formed']
+      if name == '' or date == '':
+        return render(request, 'history/add.html', {
+          'error_message': "You must complete all fields in the form."
+          })
+      else:
+        new_artist = Artist(artist_name=name, artist_formed=date)
+        new_artist.save()
+        return HttpResponseRedirect(reverse('history:index'))
+    except KeyError:
+      return render(request, 'history/add.html', {
+        'error_message': "You must complete all fields in the form."
+        })
+  # if navigating to the add page, only the form is loaded.
+  else:
+    context = {}
+    return render(request, 'history/add.html', context)
